@@ -322,5 +322,42 @@ def load_photo():
                         </html>'''.format(style, ', '.join(formats), img)
 
 
+@app.route('/carousel')
+def carousel():
+    style = url_for('static', filename='css/style.css')
+    frazs = '\n'.join([f'<div class="carousel-item"><img src="static/img/mars_peiz{x + 1}.png" class="d-block w-100" alt="Здесь должно быть фото("></div>' for x in range(1, 5)])
+    return """<!doctype html>
+                <html lang="en">
+                  <head>
+                    <meta charset="utf-8">
+                    <title>Привет, Яндекс!</title>
+                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+                    <link rel="stylesheet" type="text/css" href="{}" />
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+                  </head>
+                  <body>
+                    <div class="center_text">
+                        <h1>Пейзажи Марса</h1>
+                    </div>
+                    <div id="carouselExampleIndicators" class="carousel slide" width=100 style="width: 30%;">
+                      <div class="carousel-inner">
+                        <div class="carousel-item active">
+                          <img src="static/img/mars_peiz1.png" class="d-block w-100" alt="...">
+                        </div>
+                        {}
+                      </div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                      </button>
+                    </div>
+                </body>
+                </html>""".format(style, frazs)
+
+
 if __name__ == '__main__':
     app.run(port=8080, host='127.0.0.1')
