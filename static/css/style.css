@@ -1,0 +1,42 @@
+.text_head_img {
+    color: red;
+}
+
+.center_text {
+    text-align: center;
+}
+
+form.login_form {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 450px;
+    background-color: #f7dbc0;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.img_load {
+    width: 100%;
+}
+
+.set_pading {
+    padding-bottom: 5px;
+    padding-top: 12px;
+}
+
+.set_pading_photo_form * {
+    margin-bottom: 10px;
+}
+
+.btn_get_file {
+    border: solid black;
+    border-radius: 5px;
+    background-color: #ebebeb;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+#email {
+    margin-top: 20px;
+}
