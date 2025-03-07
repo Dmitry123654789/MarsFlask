@@ -80,7 +80,7 @@ def promotion_image():
                     <link href="{}" rel="stylesheet">
                   </head>
                   <body>
-                    <h1 class="text_head_img">Жди нас, Марс!</h1>
+                    <h1 class="text-head-img">Жди нас, Марс!</h1>
                     <img src="{}" alt="здесь должна была быть картинка, но не нашлась" height=300>
                     <div class="alert alert-dark" role="alert">
                       {}
@@ -114,17 +114,17 @@ def astronaut_selection():
                             <title>Отбор астронавтов</title>
                           </head>
                           <body>
-                          <div class="center_text">
+                          <div class="center-text">
                             <h1>Анкета предендента</h1>
                             <h3>на участие в миссии</h3>
                           </div>
                             <div>
-                                <form class="login_form" method="post">
-                                    <input type="text" class="form-control" id="last_name" aria-describedby="emailHelp" placeholder="Введите фамилию" name="last_name">
+                                <form class="login-form" method="post">
+                                    <input type="text" class="form-control" id="last-name" aria-describedby="emailHelp" placeholder="Введите фамилию" name="last_name">
                                     <input type="text" class="form-control" id="name" placeholder="Введите имя" name="name">
                                     <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Введите адрес почты" name="email">
                                     <div class="form-group">
-                                        <label for="educationSelect" class="set_pading">Какое у вас образование?</label>
+                                        <label for="educationSelect" class="set-pading">Какое у вас образование?</label>
                                         <select class="form-control" id="educationSelect" name="education">
                                           <option>Начальное</option>
                                           <option>Среднее</option>
@@ -133,11 +133,11 @@ def astronaut_selection():
                                         </select>
                                     </div>
                                     
-                                    <div class="set_pading">
+                                    <div class="set-pading">
                                         <a>Какие у Вас есть професии<br></a>
                                     </div>
                 
-                                    <div class="form_profes form-check">
+                                    <div class="form-profes form-check">
                                         <div>
                                             <input type="checkbox" class="form-check-input" id="engineerRules">
                                             <label class="form-check-label" for="engineerRules">Инженер-исследователь</label>
@@ -173,7 +173,7 @@ def astronaut_selection():
                                     </div>
                                     
                                     <div class="form-group">
-                                        <label for="form-check" class="set_pading">Укажите пол</label>
+                                        <label for="form-check" class="set-pading">Укажите пол</label>
                                         <div class="form-check">
                                           <input class="form-check-input" type="radio" name="sex" id="male" value="male" checked>
                                           <label class="form-check-label" for="male">
@@ -189,18 +189,18 @@ def astronaut_selection():
                                     </div>
                                     
                                     <div class="form-group">
-                                        <label for="about" class="set_pading">Почему вы хотите принять участие в миссии</label>
+                                        <label for="about" class="set-pading">Почему вы хотите принять участие в миссии</label>
                                         <textarea class="form-control" id="about" rows="3" name="about"></textarea>
                                     </div>
                                     
-                                   <div class="set_pading">
+                                   <div class="set-pading">
                                       <a>Приложите фотографию<br></a>
-                                      <label for="files" class="btn_get_file">Выберите файл</label>
+                                      <label for="files" class="btn-get-file">Выберите файл</label>
                                       <input id="files" style="display:none;" type="file">
                                       <label for="files">Файл не выбран</label>
                                     </div>
 
-                                    <div class="form-group form-check set_pading">
+                                    <div class="form-group form-check set-pading">
                                         <input type="checkbox" class="form-check-input" id="acceptRules" name="accept">
                                         <label class="form-check-label" for="acceptRules">Готовы остаться на Марсе?</label>
                                     </div>
@@ -238,7 +238,7 @@ def choice_planet(planet_name):
                         <link href="{}" rel="stylesheet">
                       </head>
                       <body>
-                        <h1 class="text_head_img">Мое предложение: {}</h1>
+                        <h1 class="text-head-img">Мое предложение: {}</h1>
                         <h5>Эта планета {} близка к Земле;</h5>
                         <div class="alert alert-success" role="alert">
                           {}
@@ -266,7 +266,7 @@ def result(nickname, level, rating):
                         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
                       </head>
                       <body>
-                        <h1 class="text_head_img">Результаты отбора</h1>
+                        <h1 class="text-head-img">Результаты отбора</h1>
                         <h5>Претендента на участие в миссии {}:</h5>
                         <div class="alert alert-success" role="alert">
                           <a>Поздравляем! Ваш рейтинг после {} этапа отбора</a>
@@ -303,17 +303,17 @@ def load_photo():
                                 <title>Отбор астронавтов</title>
                             </head>
                             <body>
-                                <div class="center_text">
+                                <div class="center-text">
                                     <h1>Загрузка фотографии</h1>
                                     <h3>для участия в миссии</h3>
                                 </div>
                                 <div>
-                                    <form class="login_form" method="post" enctype="multipart/form-data">
-                                        <div class="set_pading_photo_form">
+                                    <form class="login-form" method="post" enctype="multipart/form-data">
+                                        <div class="set-pading-photo-form">
                                             <a>Приложите фотографию<br></a>
-                                            <label for="files" class="btn_get_file">Выберите файл</label>
+                                            <label for="files" class="btn-get-file">Выберите файл</label>
                                             <input id="files" name="file" style="display:none;" onchange="this.form.submit()" type="file" accept="{}">
-                                            <img src="{}" alt="Файл не выбран" class="img_load">
+                                            <img src="{}" alt="Файл не выбран" class="img-load">
                                         </div>
                                         <button type="submit" class="btn btn-primary">Отправить</button>
                                     </form>
@@ -325,7 +325,9 @@ def load_photo():
 @app.route('/carousel')
 def carousel():
     style = url_for('static', filename='css/style.css')
-    frazs = '\n'.join([f'<div class="carousel-item"><img src="static/img/mars_peiz{x + 1}.png" class="d-block w-100" alt="Здесь должно быть фото("></div>' for x in range(1, 5)])
+    frazs = '\n'.join([
+        f'<div class="carousel-item"><img src="static/img/mars_peiz{x + 1}.png" class="d-block w-100" alt="Здесь должно быть фото("></div>'
+        for x in range(1, 5)])
     return """<!doctype html>
                 <html lang="en">
                   <head>
@@ -336,21 +338,21 @@ def carousel():
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
                   </head>
                   <body>
-                    <div class="center_text">
+                    <div class="center-text">
                         <h1>Пейзажи Марса</h1>
                     </div>
-                    <div id="carouselExampleIndicators" class="carousel slide" width=100 style="width: 30%;">
+                    <div id="carouselExampleDark" class="carousel slide" width=100 style="width: 30%; margin: auto;">
                       <div class="carousel-inner">
                         <div class="carousel-item active">
-                          <img src="static/img/mars_peiz1.png" class="d-block w-100" alt="...">
+                          <img src="static/img/mars_peiz1.png" class="d-block w-100" alt="здесь должна была быть картинка, но не нашлась">
                         </div>
                         {}
                       </div>
-                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                      <button class="carousel-control-prev vissibal-button" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
                       </button>
-                      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                      <button class="carousel-control-next vissibal-button" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                       </button>
