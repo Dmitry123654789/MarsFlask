@@ -45,3 +45,19 @@ form.login-form {
     background-color: rgba(0, 0, 0, 0);
     border-color: rgba(0, 0, 0, 0);
 }
+
+h4 {
+    margin-left: 20px;
+}
+
+.h4-mars-apple {
+    color: gray;
+}
+
+.auto-answer-padding * {
+    margin: 20px;
+}
+
+.auto-answer-padding {
+    padding-left: 60px;
+}

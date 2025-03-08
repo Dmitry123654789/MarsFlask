@@ -1,4 +1,4 @@
-from flask import Flask, url_for, request
+from flask import Flask, url_for, request, render_template
 
 app = Flask(__name__)
 
@@ -359,6 +359,41 @@ def carousel():
                     </div>
                 </body>
                 </html>""".format(style, frazs)
+
+
+@app.route('/<title>')
+@app.route('/index/<title>')
+def index_tite(title):
+    return render_template('base.html', title=title)
+
+
+@app.route('/training/<prof>')
+def prof(prof):
+    return render_template('training.html', prof=prof)
+
+
+@app.route('/list_prof/<spisk>')
+def list_prof(spisk):
+    profs = ['инженер - исследователь', 'пилот', 'строитель', 'экзобиолог', 'врач', 'инженер по терраформированию',
+             'климатолог', 'специалист по радиационной защите', 'астрогеолог', 'гляциолог', 'инженер жизнеобеспечения',
+             'метеоролог', 'оператор марсохода', 'киберинженер', 'штурман', 'пилот дронов']
+    return render_template('list_prof.html', professions=profs, list=spisk)
+
+
+@app.route('/answer')
+@app.route('/auto_answer')
+def answer():
+    dict_answer = {
+        'title': 'Анкета',
+        'surname': 'Watny',
+        'name': 'Mark',
+        'education': 'выше среднего',
+        'profession': 'штурман марсохода',
+        'sex': 'male',
+        'motivation': 'Всегда мечтал застрять на Марсе!',
+        'ready': True
+    }
+    return render_template('auto_answer.html', **dict_answer)
 
 
 if __name__ == '__main__':

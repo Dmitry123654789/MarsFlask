@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <meta charset="utf-8">
+    {% if 'инженер' in prof.lower() or 'строитель' in prof.lower() %}
+        <h2 align="center">Инженеры тренажеры</h2>
+        <img src="/static/img/ing.png" alt="Здесь должно быть фото(" width="1000px">
+    {% else %}
+        <h2 align="center">Научные симуляторы</h2>
+        <img src="/static/img/sci.png" alt="Здесь должно быть фото(" width="1000px">
+    {% endif %}
+
+{% endblock %}

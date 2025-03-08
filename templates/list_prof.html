@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <meta charset="utf-8">
+    <h2 style="margin-left: 40px">Список профессий</h2>
+    {% if list=='ol' %}
+        <ol style="margin-left: 60px">
+            {% for item in professions %}
+                <li>{{ item }}</li>
+            {% endfor %}
+        </ol>
+    {% elif list=='ul' %}
+        <ul style="margin-left: 60px">
+            {% for item in professions %}
+                <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Вы ввели неверный параметр!</p>
+    {% endif %}
+
+{% endblock %}
