@@ -61,3 +61,20 @@ h4 {
 .auto-answer-padding {
     padding-left: 60px;
 }
+
+.login_form_padding {
+    padding: 40px;
+}
+
+.login_form_padding * {
+    margin-top: 10px;
+}
+
+.photo_center {
+    align-items: center;
+    display: flex
+}
+
+.photo_center * {
+    margin-right: 10px;
+}
