@@ -421,6 +421,12 @@ def success():
     return render_template('success.html')
 
 
+@app.route('/distribution')
+def distribution():
+    names = ['Ридли Скотт', 'Энди Уир', 'Марк Уотни', 'Венката Капур', 'Тедди Сандерс', 'Шон Бин']
+    return render_template('distribution.html', names=names)
+
+
 if __name__ == '__main__':
     app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
     app.run(port=8080, host='127.0.0.1')

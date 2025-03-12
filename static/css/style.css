@@ -62,19 +62,29 @@ h4 {
     padding-left: 60px;
 }
 
-.login_form_padding {
+.login-form-padding {
     padding: 40px;
 }
 
-.login_form_padding * {
+.login-form-padding * {
     margin-top: 10px;
 }
 
-.photo_center {
+.photo-center {
     align-items: center;
     display: flex
 }
 
-.photo_center * {
+.photo-center * {
     margin-right: 10px;
+}
+
+.object-left {
+    align-items: flex-start;
+    display: flex;
+}
+
+.cabin-padding {
+    padding-left: 100px;
+    padding-top: 20px;
 }

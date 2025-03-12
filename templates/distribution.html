@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 align="center">Размещение по каютам</h2>
+<div class="cabin-padding">
+    {% set numb = 'Каюта №' %}
+    {% for name in names %}
+    <h5>{{ name }} - {{ numb }} {{ loop.index }}{% if loop.first %} - капитан корабля{% endif %}</h5>
+    {% endfor %}
+</div>
+{% endblock %}
