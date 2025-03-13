@@ -1,8 +1,11 @@
+import json
+import random
+from os import path
+
 from flask import Flask, url_for, request, render_template, redirect
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
-from os import path
 
 app = Flask(__name__)
 
@@ -448,7 +451,16 @@ def galery():
             request.files['file'].save(f'static/img/load_photo_galery{i}.png')
         else:
             i -= 1
-    return render_template('galery.html', list_name=[f'img/load_photo_galery{x}.png' for x in range(1, i + 1)], formats=', '.join(formats))
+    return render_template('galery.html', list_name=[f'img/load_photo_galery{x}.png' for x in range(1, i + 1)],
+                           formats=', '.join(formats))
+
+
+@app.route('/member')
+def member():
+    number_member = random.randint(0, 2)
+    with open('templates/member.json', 'r', encoding='utf-8') as file:
+        data = json.load(file)['crew_members'][number_member]
+    return render_template('member.html', data=data)
 
 
 if __name__ == '__main__':

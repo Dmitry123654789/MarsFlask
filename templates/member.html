@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div align="center">
+    <h2>{{ data["last_name"] }} {{ data["name"] }}</h2>
+    <img height="500px" src="{{ url_for('static', filename=data['photo']) }}"
+         alt="Картинка потерялась по пути к вам, извините(">
+    <a><br>{{ data["specialties"] | sort | join(', ') }}.</a>
+</div>
+{% endblock %}

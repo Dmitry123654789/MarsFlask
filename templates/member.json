@@ -1,0 +1,31 @@
+{
+  "crew_members": [
+    {
+      "name": "Наруто",
+      "last_name": "Удзумаки",
+      "photo": "img/member_1.png",
+      "specialties": [
+        "Просто хороший парень",
+        "Разработчик ИИ"
+      ]
+    },
+    {
+      "name": "Луффи",
+      "last_name": "Манки Де",
+      "photo": "img/member_2.png",
+      "specialties": [
+        "Backend разработчик",
+        "Пилот дронов"
+      ]
+    },
+    {
+      "name": "Ичиго",
+      "last_name": "Куросаки",
+      "photo": "img/member_3.png",
+      "specialties": [
+        "Врач",
+        "Штурмовик"
+      ]
+    }
+  ]
+}
