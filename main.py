@@ -427,6 +427,15 @@ def distribution():
     return render_template('distribution.html', names=names)
 
 
+@app.route('/table/<sex>/<age>')
+def table(sex, age):
+    if age.isdigit():
+        age = int(age)
+    else:
+        age = 0
+    return render_template('table.html', sex=sex, age=age)
+
+
 if __name__ == '__main__':
     app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
     app.run(port=8080, host='127.0.0.1')

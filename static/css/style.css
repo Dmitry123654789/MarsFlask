@@ -88,3 +88,12 @@ h4 {
     padding-left: 100px;
     padding-top: 20px;
 }
+
+.table-cabin {
+    width: 800px;
+}
+
+.center-title-table {
+    text-align: center;
+    background-color: #afafaf;
+}
