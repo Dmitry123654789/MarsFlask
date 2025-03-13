@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2 align="center">Пейзажи Марса</h2>
+    <div id="carouselExampleDark" class="carousel slide" width=100 style="width: 30%; margin: auto;">
+      <div class="carousel-inner">
+        <div class="carousel-item active set-pading">
+          <img src="static/img/load_photo_galery0.png" class="d-block w-100" alt="">
+        </div>
+        {% for item in list_name %}
+          <div class="carousel-item set-pading">
+              <img src="{{ url_for('static', filename=item) }}" class="d-block w-100" alt="Здесь должно быть фото(">
+          </div>
+        {% endfor %}
+      </div>
+      <button class="carousel-control-prev vissibal-button" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next vissibal-button" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+    <div>
+        <form class="login-form" method="post" enctype="multipart/form-data">
+            <div class="set-pading-photo-form">
+                <a>Приложите фотографию<br></a>
+                <label for="files" class="btn-get-file">Выберите файл</label>
+                <input id="files" name="file" style="display:none;" type="file" accept="{{ formats }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
+    </div>
+{% endblock %}

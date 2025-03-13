@@ -2,6 +2,7 @@ from flask import Flask, url_for, request, render_template, redirect
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
+from os import path
 
 app = Flask(__name__)
 
@@ -434,6 +435,20 @@ def table(sex, age):
     else:
         age = 0
     return render_template('table.html', sex=sex, age=age)
+
+
+@app.route('/galery', methods=['POST', 'GET'])
+def galery():
+    formats = ['.jpg', '.jpeg', '.png']
+    i = 0
+    while path.exists(f'static/img/load_photo_galery{i}.png'):
+        i += 1
+    if request.method == 'POST':
+        if request.files['file'].filename and '.' + request.files['file'].filename.split('.')[-1] in formats:
+            request.files['file'].save(f'static/img/load_photo_galery{i}.png')
+        else:
+            i -= 1
+    return render_template('galery.html', list_name=[f'img/load_photo_galery{x}.png' for x in range(1, i + 1)], formats=', '.join(formats))
 
 
 if __name__ == '__main__':
