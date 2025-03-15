@@ -12,16 +12,25 @@
     <tbody>
     <tr style="height: 500px">
         {% if sex == 'male' %}
-        <td style="background-color: blue; width: 400px"></td>
+            {% if age < 21 %}
+                <td style="background-color: #7575df; width: 400px"></td>
+            {% else %}
+                <td style="background-color: #1515e3; width: 400px"></td>
+            {% endif %}
         {% elif sex == 'female' %}
-        <td style="background-color: red; width: 400px"></td>
+            {% if age < 21 %}
+                <td style="background-color: #df7575; width: 400px"></td>
+            {% else %}
+                <td style="background-color: #e31515; width: 400px"></td>
+            {% endif %}
         {% else %}
-        <td style="width: 400px; background: linear-gradient(180deg, #f00000, #f00000 16.67%, #ff8000 16.67%, #ff8000 33.33%, #ffff00 33.33%, #ffff00 50%, #007940 50%, #007940 66.67%, #4040ff 66.67%, #4040ff 83.33%, #a000c0 83.33%, #a000c0) ;"></td>
+            <td style="width: 400px; background: linear-gradient(180deg, #f00000, #f00000 16.67%, #ff8000 16.67%, #ff8000 33.33%, #ffff00 33.33%, #ffff00 50%, #007940 50%, #007940 66.67%, #4040ff 66.67%, #4040ff 83.33%, #a000c0 83.33%, #a000c0) ;"></td>
         {% endif %}
+
         {% if age < 21 %}
-        <td><img width="400px" src="{{ url_for('static', filename='img/baby.jpg') }}"></td>
+            <td><img width="400px" src="{{ url_for('static', filename='img/baby.jpg') }}"></td>
         {% else %}
-        <td><img width="400px" src="{{ url_for('static', filename='img/adult.jpg') }}"></td>
+            <td><img width="400px" src="{{ url_for('static', filename='img/adult.jpg') }}"></td>
         {% endif %}
     </tr>
     </tbody>
