@@ -70,14 +70,6 @@ h4 {
     margin-top: 10px;
 }
 
-.photo-center {
-    align-items: center;
-    display: flex
-}
-
-.photo-center * {
-    margin-right: 10px;
-}
 
 .object-left {
     align-items: flex-start;
@@ -96,4 +88,14 @@ h4 {
 .center-title-table {
     text-align: center;
     background-color: #afafaf;
+}
+
+.title-login-form::before {
+    content: url('/static/img/MARS-2-7.png');
+    margin-right: 10px;
+}
+
+.title-login-form {
+    align-items: center;
+    display: flex;
 }

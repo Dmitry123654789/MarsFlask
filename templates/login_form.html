@@ -3,53 +3,52 @@
 {% block content %}
 <div class="login-form-padding">
     <div class="photo-center">
-        <img src="../static/img/mars_icon_login_form.jpg">
-        <h1 style="display: inline-block; align-items: center; " xmlns="http://www.w3.org/1999/html">Авторизация</h1>
+        <h1 class="title-login-form">Аварийный доступ</h1>
     </div>
-<form action="" method="post" novalidate>
-    {{ form.hidden_tag() }}
-    <h5>
-        {{ form.username.label }}<br>
-        {{ form.username(class="form-control") }}<br>
-        {% for error in form.username.errors %}
-    <div class="alert alert-danger" role="alert">
-        {{ error }}
-    </div>
-    {% endfor %}
-    </h5>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <h5>
+            {{ form.username.label }}<br>
+            {{ form.username(class="form-control") }}<br>
+            {% for error in form.username.errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% endfor %}
+        </h5>
 
-    <h5>
-        {{ form.password.label }}<br>
-        {{ form.password(class="form-control", type="password") }}<br>
-        {% for error in form.password.errors %}
-    <div class="alert alert-danger" role="alert">
-        {{ error }}
-    </div>
-    {% endfor %}
-    </h5>
+        <h5>
+            {{ form.password.label }}<br>
+            {{ form.password(class="form-control", type="password") }}<br>
+            {% for error in form.password.errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% endfor %}
+        </h5>
 
-    <h5>
-        {{ form.username_captain.label }}<br>
-        {{ form.username_captain(class="form-control") }}<br>
-        {% for error in form.password.errors %}
-    <div class="alert alert-danger" role="alert">
-        {{ error }}
-    </div>
-    {% endfor %}
-    </h5>
+        <h5>
+            {{ form.username_captain.label }}<br>
+            {{ form.username_captain(class="form-control") }}<br>
+            {% for error in form.password.errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% endfor %}
+        </h5>
 
-    <h5>
-        {{ form.password_captain.label }}<br>
-        {{ form.password_captain(class="form-control", type="password") }}<br>
-        {% for error in form.password.errors %}
-    <div class="alert alert-danger" role="alert">
-        {{ error }}
-    </div>
-    {% endfor %}
-    </h5>
+        <h5>
+            {{ form.password_captain.label }}<br>
+            {{ form.password_captain(class="form-control", type="password") }}<br>
+            {% for error in form.password.errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% endfor %}
+        </h5>
 
-    <h5>{{ form.submit(type="submit", class="btn btn-primary") }}</h5>
+        <h5>{{ form.submit(type="submit", class="btn btn-primary") }}</h5>
 
-</form>
+    </form>
 </div>
 {% endblock %}
