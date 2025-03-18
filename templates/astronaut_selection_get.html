@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="center-text">
+    <h1>Анкета предендента</h1>
+    <h3>на участие в миссии</h3>
+</div>
+<div>
+    <form class="login-form" method="post">
+        <input type="text" class="form-control" id="last-name" aria-describedby="emailHelp"
+               placeholder="Введите фамилию" name="last_name">
+        <input type="text" class="form-control" id="name" placeholder="Введите имя" name="name">
+        <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
+               placeholder="Введите адрес почты" name="email">
+        <div class="form-group">
+            <label for="educationSelect" class="set-pading">Какое у вас образование?</label>
+            <select class="form-control" id="educationSelect" name="education">
+                <option>Начальное</option>
+                <option>Среднее</option>
+                <option>Высшее</option>
+                <option>Без образования</option>
+            </select>
+        </div>
+
+        <div class="set-pading">
+            <a>Какие у Вас есть професии<br></a>
+        </div>
+
+        <div class="form-profes form-check">
+            <div>
+                <input type="checkbox" class="form-check-input" id="engineerRules">
+                <label class="form-check-label" for="engineerRules">Инженер-исследователь</label>
+            </div>
+            <div>
+                <input type="checkbox" class="form-check-input" id="builderRules">
+                <label class="form-check-label" for="builderRules">Инженер-строитель</label>
+            </div>
+            <div>
+                <input type="checkbox" class="form-check-input" id="pilotRules">
+                <label class="form-check-label" for="pilotRules">Пилот</label>
+            </div>
+            <div>
+                <input type="checkbox" class="form-check-input" id="meteoRules">
+                <label class="form-check-label" for="meteoRules">Метеоролог</label>
+            </div>
+            <div>
+                <input type="checkbox" class="form-check-input" id="lifeRules">
+                <label class="form-check-label" for="lifeRules">Инженер по жизниобеспечению</label>
+            </div>
+            <div>
+                <input type="checkbox" class="form-check-input" id="radioRules">
+                <label class="form-check-label" for="radioRules">Инженер по рдиоцмонной защите</label>
+            </div>
+            <div>
+                <input type="checkbox" class="form-check-input" id="vracRules">
+                <label class="form-check-label" for="vracRules">Врач</label>
+            </div>
+            <div>
+                <input type="checkbox" class="form-check-input" id="biologRules">
+                <label class="form-check-label" for="biologRules">Экзобиолог</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="form-check" class="set-pading">Укажите пол</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="sex" id="male" value="male" checked>
+                <label class="form-check-label" for="male">
+                    Мужской
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="sex" id="female" value="female">
+                <label class="form-check-label" for="female">
+                    Женский
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="about" class="set-pading">Почему вы хотите принять участие в миссии</label>
+            <textarea class="form-control" id="about" rows="3" name="about"></textarea>
+        </div>
+
+        <div class="set-pading">
+            <a>Приложите фотографию<br></a>
+            <label for="files" class="btn-get-file">Выберите файл</label>
+            <input id="files" style="display:none;" type="file">
+            <label for="files">Файл не выбран</label>
+        </div>
+
+        <div class="form-group form-check set-pading">
+            <input type="checkbox" class="form-check-input" id="acceptRules" name="accept">
+            <label class="form-check-label" for="acceptRules">Готовы остаться на Марсе?</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+</div>
+{% endblock %}

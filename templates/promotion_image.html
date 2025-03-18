@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="text-head-img">Жди нас, Марс!</h1>
+<img src="{{ url_for('static', filename='img/mars.png') }}" alt="здесь должна была быть картинка, но не нашлась" height=300>
+<div class="alert alert-dark" role="alert">
+    {{ fraz_0 }}
+</div>
+<div class="alert alert-success" role="alert">
+    {{ fraz_1 }}
+</div>
+<div class="alert alert-secondary" role="alert">
+    {{ fraz_2 }}!
+</div>
+<div class="alert alert-warning" role="alert">
+    {{ fraz_3 }}
+</div>
+<div class="alert alert-danger" role="alert">
+    {{ fraz_4 }}
+</div>
+{% endblock %}

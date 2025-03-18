@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="center-text">
+    <h1>Загрузка фотографии</h1>
+    <h3>для участия в миссии</h3>
+</div>
+<div>
+    <form class="login-form" method="post" enctype="multipart/form-data">
+        <div class="set-pading-photo-form">
+            <a>Приложите фотографию<br></a>
+            <label for="files" class="btn-get-file">Выберите файл</label>
+            <input id="files" name="file" style="display:none;" onchange="this.form.submit()" type="file" accept=".jpg, .jpeg, .png">
+            <img src="{{ url_for('static', filename='img/load_photo.png') }}" alt="Файл не выбран" class="img-load">
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+</div>
+{% endblock %}
