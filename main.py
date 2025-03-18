@@ -16,7 +16,8 @@ app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 @app.route('/')
 def name():
-    return render_template('name.html')
+    db_sess = db_session.create_session()
+    return render_template('works_log.html', jobs=db_sess.query(Jobs).all())
 
 
 @app.route('/index')
@@ -221,22 +222,40 @@ def set_users():
 
 def set_jobs():
     job = Jobs()
-    job.team_leader = 1
-    job.job = 'deployment of residential modules 1 and 2'
+    job.team_leader = 'Scott Ridley'
+    job.job = 'Deployment of residential modules 1 and 2'
     job.work_size = 15
     job.collaborators = '2, 3'
     job.start_date = datetime.datetime.now()
     job.is_finished = False
 
+    job_1 = Jobs()
+    job_1.team_leader = 'Weir Andy'
+    job_1.job = 'Exploration of mineral resources'
+    job_1.work_size = 15
+    job_1.collaborators = '4, 3'
+    job_1.start_date = datetime.datetime.now()
+    job_1.is_finished = False
+
+    job_2 = Jobs()
+    job_2.team_leader = 'Sanders Teddy'
+    job_2.job = 'deployment of residential modules 1 and 2'
+    job_2.work_size = 25
+    job_2.collaborators = '5'
+    job_2.start_date = datetime.datetime.now()
+    job_2.is_finished = True
+
     session = db_session.create_session()
     session.add(job)
+    session.add(job_1)
+    session.add(job_2)
     session.commit()
 
 
 def main():
-    # db_session.global_init('db/mars.db')
-    # set_users()
-    # set_jobs()
+    db_session.global_init('db/mars.db')
+    set_users()
+    set_jobs()
     app.run(port=8080, host='127.0.0.1')
 
 

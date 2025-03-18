@@ -99,3 +99,7 @@ h4 {
     align-items: center;
     display: flex;
 }
+
+.table-center-vertical * {
+    vertical-align: middle;
+}
