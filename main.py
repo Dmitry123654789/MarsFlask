@@ -1,3 +1,4 @@
+import datetime
 import json
 import random
 from os import path
@@ -7,7 +8,12 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
 
+from data import db_session
+from data.jobs import Jobs
+from data.users import User
+
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 
 class LoginForm(FlaskForm):
@@ -463,6 +469,79 @@ def member():
     return render_template('member.html', data=data)
 
 
+def set_users():
+    user1 = User()
+    user1.surname = "Scott"
+    user1.name = "Ridley"
+    user1.age = 21
+    user1.position = "captain"
+    user1.speciality = "research engineer"
+    user1.address = "module_1"
+    user1.email = "scott_chief@mars.org"
+    user1.hashed_password = "cap"
+    user1.set_password(user1.hashed_password)
+
+    user2 = User()
+    user2.surname = "Александровый"
+    user2.name = "Александр"
+    user2.age = 45
+    user2.position = "stzer"
+    user2.speciality = "проектировщик сайтов"
+    user2.address = "module_2"
+    user2.email = "stzer@mars.org"
+    user2.hashed_password = "stzer"
+    user2.set_password(user2.hashed_password)
+
+    user3 = User()
+    user3.surname = "Поддубный"
+    user3.name = "Дмитрий"
+    user3.age = 555
+    user3.position = "prezident"
+    user3.speciality = "no work"
+    user3.address = "module_3"
+    user3.email = "best_prezident@mars.org"
+    user3.hashed_password = "prezident"
+    user3.set_password(user3.hashed_password)
+
+    user4 = User()
+    user4.surname = "None"
+    user4.name = "None"
+    user4.age = 999
+    user4.position = "none"
+    user4.speciality = "none"
+    user4.address = "module_4"
+    user4.email = "none@mars.org"
+    user4.hashed_password = "none"
+    user4.set_password(user4.hashed_password)
+
+    session = db_session.create_session()
+    session.add(user1)
+    session.add(user2)
+    session.add(user3)
+    session.add(user4)
+    session.commit()
+
+
+def set_jobs():
+    job = Jobs()
+    job.team_leader = 1
+    job.job = 'deployment of residential modules 1 and 2'
+    job.work_size = 15
+    job.collaborators = '2, 3'
+    job.start_date = datetime.datetime.now()
+    job.is_finished = False
+
+    session = db_session.create_session()
+    session.add(job)
+    session.commit()
+
+
+def main():
+    db_session.global_init("db/mars.db")
+    set_users()
+    set_jobs()
+    # app.run(port=8080, host='127.0.0.1')
+
+
 if __name__ == '__main__':
-    app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
-    app.run(port=8080, host='127.0.0.1')
+    main()
