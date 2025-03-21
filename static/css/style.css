@@ -103,3 +103,14 @@ h4 {
 .table-center-vertical * {
     vertical-align: middle;
 }
+
+.nav-bar * {
+    margin-right: 20px;
+}
+
+.return-main {
+    text-decoration: none;
+    color: black;
+    display: inline-block;
+    font-size: 2.5rem;
+}
