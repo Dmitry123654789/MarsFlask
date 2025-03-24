@@ -114,3 +114,19 @@ h4 {
     display: inline-block;
     font-size: 2.5rem;
 }
+
+.btn-edit-job {
+    background-color: #efaa40;
+    color: #000000;
+    padding: 7px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn-dell-job {
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #fb4e4e;
+    padding: 7px;
+    border-radius: 5px
+}

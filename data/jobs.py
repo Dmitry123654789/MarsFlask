@@ -16,4 +16,8 @@ class Jobs(SqlAlchemyBase):
     is_finished = sqlalchemy.Column(sqlalchemy.Boolean, nullable=True)
 
     team_leader = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
+    creator = sqlalchemy.Column(sqlalchemy.Integer, default=1)
     user = orm.relationship('User')
+
+    def __repr__(self):
+        return f'<Job> {self.job}'

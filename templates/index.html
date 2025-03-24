@@ -21,11 +21,19 @@
             <td>{{ names[job.team_leader] }}</td>
             <td>{{ job.work_size }} hours</td>
             <td align="center">{{ job.collaborators }}</td>
-            <td class="table-danger" align="center">{% if job.is_finished %}Is finiched{% else %}Is not finiched{% endif
-                %}
-            </td>
+            {% if job.is_finished %}
+            <td class="table-success" align="center">Is finiched</td>
+            {% else %}
+            <td class="table-danger" align="center">Is not finiched</td>
+            {% endif %}
         </tr>
     </table>
+    {% if current_user.id == 1 or current_user.id == job.creator %}
+    <div style="padding-bottom: 30px">
+        <a class="btn-edit-job" href="/editjob/{{ job.id }}">Edit Job</a>
+        <a class="btn-dell-job" href="/delete/{{ job.id }}">Delete Job</a>
+    </div>
+    {% endif %}
     {% endfor %}
 </div>
 {% endblock %}

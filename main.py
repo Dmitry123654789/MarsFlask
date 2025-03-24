@@ -1,9 +1,11 @@
+import datetime
 import json
 import random
 from os import path
 
-from flask import Flask, render_template, redirect, request
-from flask_login import LoginManager, login_user, login_required, logout_user
+from flask import Flask, render_template, redirect, request, abort
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from sqlalchemy.sql.operators import or_
 
 from data import db_session
 from data.add_job import AddJobForm
@@ -59,7 +61,7 @@ def register():
     return render_template('register.html', form=form, title='Регистрация')
 
 
-@app.route('/addjob', methods=['GET', 'POST'])
+@app.route('/editjob', methods=['GET', 'POST'])
 def addjob():
     form = AddJobForm()
     if form.validate_on_submit():
@@ -69,6 +71,7 @@ def addjob():
                     collaborators=form.collaborators.data,
                     is_finished=form.remember_me.data,
                     team_leader=form.team_leader.data,
+                    creator=current_user.id
                     )
         session.add(user)
         session.commit()
@@ -237,8 +240,122 @@ def member():
     return render_template('member.html', data=data)
 
 
+@app.route('/delete/<int:id>')
+@login_required
+def delete(id):
+    db_sess = db_session.create_session()
+    news = db_sess.query(Jobs).filter(Jobs.id == id, or_(Jobs.creator == current_user.id, current_user.id == 1)).first()
+    print(news)
+    if news:
+        db_sess.delete(news)
+        db_sess.commit()
+    else:
+        abort(404)
+    return redirect('/')
+
+
+@app.route('/editjob/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit(id):
+    form = AddJobForm()
+    if request.method == "GET":
+        db_sess = db_session.create_session()
+        jobs = db_sess.query(Jobs).filter(Jobs.id == id,
+                                          or_(Jobs.creator == current_user.id, current_user.id == 1)).first()
+        if jobs:
+            form.job.data = jobs.job
+            form.team_leader.data = jobs.team_leader
+            form.work_size.data = jobs.work_size
+            form.collaborators.data = jobs.collaborators
+        else:
+            abort(404)
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        jobs = db_sess.query(Jobs).filter(Jobs.id == id,
+                                          or_(Jobs.creator == current_user.id, current_user.id == 1)).first()
+        if jobs:
+            jobs.job = form.job.data
+            jobs.team_leader = form.team_leader.data
+            jobs.work_size = form.work_size.data
+            jobs.collaborators = form.collaborators.data
+            db_sess.commit()
+            return redirect('/')
+        else:
+            abort(404)
+    return render_template('addjob.html', title='Редактирование работы', form=form)
+
+
+def set_users():
+    user1 = User()
+    user1.surname = "Scott"
+    user1.name = "Ridley"
+    user1.age = 21
+    user1.position = "captain"
+    user1.speciality = "research engineer"
+    user1.address = "module_1"
+    user1.email = "scott_chief@mars.org"
+    user1.hashed_password = "cap"
+    user1.set_password(user1.hashed_password)
+    user2 = User()
+
+    user2.surname = "Александровый"
+    user2.name = "Александр"
+    user2.age = 45
+    user2.position = "stzer"
+    user2.speciality = "проектировщик сайтов"
+    user2.address = "module_2"
+    user2.email = "stzer@mars.org"
+    user2.hashed_password = "stzer"
+    user2.set_password(user2.hashed_password)
+    user3 = User()
+
+    user3.surname = "Поддубный"
+    user3.name = "Дмитрий"
+    user3.age = 555
+    user3.position = "prezident"
+    user3.speciality = "no work"
+    user3.address = "module_3"
+    user3.email = "best_prezident@mars.org"
+    user3.hashed_password = "prezident"
+    user3.set_password(user3.hashed_password)
+
+    user4 = User()
+    user4.surname = "None"
+    user4.name = "None"
+    user4.age = 999
+    user4.position = "none"
+    user4.speciality = "none"
+    user4.address = "module_4"
+    user4.email = "none@mars.org"
+    user4.hashed_password = "none"
+    user4.set_password(user4.hashed_password)
+
+    session = db_session.create_session()
+    session.add(user1)
+    session.add(user2)
+    session.add(user3)
+    session.add(user4)
+    session.commit()
+
+
+def set_jobs():
+    job = Jobs()
+    job.team_leader = 1
+    job.job = 'deployment of residential modules 1 and 2'
+    job.work_size = 15
+    job.collaborators = '2, 3'
+    job.start_date = datetime.datetime.now()
+    job.is_finished = False
+
+    session = db_session.create_session()
+    session.add(job)
+    session.commit()
+
+
 def main():
     db_session.global_init('db/mars.db')
+    # set_users()
+    # set_jobs()
     app.run(port=8080, host='127.0.0.1')
 
 
