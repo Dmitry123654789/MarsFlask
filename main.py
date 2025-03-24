@@ -245,7 +245,6 @@ def member():
 def delete(id):
     db_sess = db_session.create_session()
     news = db_sess.query(Jobs).filter(Jobs.id == id, or_(Jobs.creator == current_user.id, current_user.id == 1)).first()
-    print(news)
     if news:
         db_sess.delete(news)
         db_sess.commit()
