@@ -7,6 +7,7 @@ from flask import Flask, render_template, redirect, request, abort
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from sqlalchemy.sql.operators import or_
 
+from api import jobs_api
 from data import db_session
 from data.add_job import AddJobForm
 from data.jobs import Jobs
@@ -14,7 +15,8 @@ from data.login_form import LoginForm
 from data.register import RegisterForm
 from data.users import User
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates')
+app.register_blueprint(jobs_api.blueprint, url_prefix='/api')
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 login_manager = LoginManager()
@@ -32,7 +34,7 @@ def name():
     db_sess = db_session.create_session()
     jobs = db_sess.query(Jobs).all()
     users = db_sess.query(User).all()
-    names = {name.id: f'{name.surname} {name.name}' for name in users}
+    names = {user.id: f'{user.surname} {user.name}' for user in users}
     return render_template('index.html', jobs=jobs, names=names, title='Work Log')
 
 
@@ -91,7 +93,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         db_sess = db_session.create_session()
-        user = db_sess.query(User).filter(User.email == form.email.data).first()
+        user: User | None = db_sess.query(User).filter(User.email == form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect("/")
@@ -168,9 +170,9 @@ def index_tite(title):
     return render_template('base.html', title=title)
 
 
-@app.route('/training/<prof>')
-def prof(prof):
-    return render_template('training.html', prof=prof)
+@app.route('/training/<profe>')
+def prof(profe):
+    return render_template('training.html', prof=profe)
 
 
 @app.route('/list_prof/<spisk>')
@@ -353,8 +355,6 @@ def set_jobs():
 
 def main():
     db_session.global_init('db/mars.db')
-    # set_users()
-    # set_jobs()
     app.run(port=8080, host='127.0.0.1')
 
 
