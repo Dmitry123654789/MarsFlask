@@ -2,7 +2,7 @@ import datetime
 
 import flask
 from flask import jsonify, make_response, request
-
+from sqlalchemy import update
 from data import db_session
 from data.jobs import Jobs
 
@@ -77,3 +77,36 @@ def create_jobs():
         return jsonify({'id': jobs.id})
 
     return make_response(jsonify({'error': 'Bad request'}), 400)
+
+@blueprint.route('/jobs/<jobs_id>', methods=['DELETE'])
+def delete_jobs(jobs_id):
+    db_sess = db_session.create_session()
+    jobs = db_sess.query(Jobs).get(jobs_id)
+    if not jobs:
+        return make_response(jsonify({'error': 'Not found'}), 404)
+    db_sess.delete(jobs)
+    db_sess.commit()
+    return jsonify({'success': 'OK'})
+
+@blueprint.route('/jobs/<jobs_id>', methods=['PUT'])
+def update_jobs(jobs_id):
+    db_sess = db_session.create_session()
+    job = db_sess.query(Jobs).get(jobs_id)
+    if not job:
+        return make_response(jsonify({'error': 'Not found'}), 404)
+
+    error_key = []
+    for key, value in request.json.items():
+        if hasattr(job, key):
+            try:
+                if key in ['end_date', 'start_date']:
+                    setattr(job, key, datetime.datetime.strptime(request.json['start_date'], '%Y-%m-%d %H:%M:%S'))
+                else:
+                    setattr(job, key, value)
+            except Exception as e:
+                error_key.append(key)
+        else:
+            error_key.append(key)
+
+    db_sess.commit()
+    return jsonify({'success': 'OK', 'error_keys': error_key})
