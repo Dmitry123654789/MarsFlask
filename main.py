@@ -3,7 +3,8 @@ import json
 import random
 from os import path
 
-from flask import Flask, render_template, redirect, request, abort
+from flask import Flask, render_template, redirect, request, abort, jsonify
+from flask import make_response
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from sqlalchemy.sql.operators import or_
 
@@ -27,6 +28,16 @@ login_manager.init_app(app)
 def load_user(user_id):
     db_sess = db_session.create_session()
     return db_sess.get(User, user_id)
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
+
+
+@app.errorhandler(400)
+def bad_request(_):
+    return make_response(jsonify({'error': 'Bad Request'}), 400)
 
 
 @app.route('/')
@@ -246,9 +257,9 @@ def member():
 @login_required
 def delete(id):
     db_sess = db_session.create_session()
-    news = db_sess.query(Jobs).filter(Jobs.id == id, or_(Jobs.creator == current_user.id, current_user.id == 1)).first()
-    if news:
-        db_sess.delete(news)
+    jobs = db_sess.query(Jobs).filter(Jobs.id == id, or_(Jobs.creator == current_user.id, current_user.id == 1)).first()
+    if jobs:
+        db_sess.delete(jobs)
         db_sess.commit()
     else:
         abort(404)
