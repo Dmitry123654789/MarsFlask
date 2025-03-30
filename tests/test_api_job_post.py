@@ -2,7 +2,7 @@ from datetime import datetime
 
 from requests import get, post
 
-# Правильный запрос, когда работа не закончена
+# Правильный запрос
 print(post('http://localhost:8080/api/jobs',
            json={'job': 'работа не закончена',
                  'work_size': 15,
@@ -10,27 +10,17 @@ print(post('http://localhost:8080/api/jobs',
                  'is_finished': False,
                  'team_leader': 1,
                  'creator': 1,
-                 'start_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                 'start_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                 'end_date': '2028-02-12 00:00:00',
                  }).json())
 
-# Правильный запрос, когда работа закончена
-print(post('http://localhost:8080/api/jobs',
-           json={'job': 'работа закончена',
-                 'work_size': 15,
-                 'collaborators': '1, 2',
-                 'is_finished': True,
-                 'team_leader': 1,
-                 'creator': 1,
-                 'start_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                 'end_date': '2026-10-20 23:20:05'
-                 }).json())
 
 # Запрос в которром не хватает данных
 print(post('http://localhost:8080/api/jobs',
            json={'job': 'Плохая работа'
                  }).json())
 
-# Запрос, когда работа не закончена, но указана дата ее оканчания
+# Запрос, когда передается неизвестный параметр
 print(post('http://localhost:8080/api/jobs',
            json={'job': 'работа закончена',
                  'work_size': 15,
@@ -39,7 +29,8 @@ print(post('http://localhost:8080/api/jobs',
                  'team_leader': 1,
                  'creator': 1,
                  'start_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                 'end_date': '2026-10-20 23:20:05'
+                 'end_date': '2026-10-20 23:20:05',
+                 'none_param': 99
                  }).json())
 
 # Запрос, когда никакие данные не передаются

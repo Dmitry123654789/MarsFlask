@@ -43,24 +43,8 @@ def create_jobs():
     if not request.json:
         return make_response(jsonify({'error': 'Empty request'}), 400)
     elif all(key in request.json for key in
-             ['job', 'work_size', 'collaborators', 'is_finished', 'start_date', 'team_leader', 'creator']) and not \
-            request.json['is_finished'] and 'end_date' not in request.json:
-        db_sess = db_session.create_session()
-        jobs = Jobs(
-            job=request.json['job'],
-            work_size=request.json['work_size'],
-            collaborators=request.json['collaborators'],
-            start_date=datetime.datetime.strptime(request.json['start_date'], '%Y-%m-%d %H:%M:%S'),
-            is_finished=request.json['is_finished'],
-            team_leader=request.json['team_leader'],
-            creator=request.json['creator']
-        )
-        db_sess.add(jobs)
-        db_sess.commit()
-        return jsonify({'id': jobs.id})
-    elif all(key in request.json for key in
              ['job', 'work_size', 'collaborators', 'is_finished', 'start_date', 'team_leader', 'creator',
-              'end_date']) and request.json['is_finished']:
+              'end_date', 'is_finished']) and len(request.json) == 8:
         db_sess = db_session.create_session()
         jobs = Jobs(
             job=request.json['job'],
