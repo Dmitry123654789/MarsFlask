@@ -10,10 +10,12 @@ from sqlalchemy.sql.operators import or_
 
 from api import jobs_api
 from data import db_session
-from data.add_job import AddJobForm
+from data.department import Department
+from forms.add_department import AddDepartmentForm
+from forms.add_job import AddJobForm
 from data.jobs import Jobs
-from data.login_form import LoginForm
-from data.register import RegisterForm
+from forms.login import LoginForm
+from forms.register import RegisterForm
 from data.users import User
 
 app = Flask(__name__, template_folder='templates')
@@ -49,16 +51,80 @@ def name():
     return render_template('index.html', jobs=jobs, names=names, title='Work Log')
 
 
+@app.route('/departments')
+def departments():
+    db_sess = db_session.create_session()
+    users = db_sess.query(User).all()
+    department = db_sess.query(Department).all()
+    names = {user.id: f'{user.surname} {user.name}' for user in users}
+    return render_template('departments.html', names=names, departments=department, title='List of Departaments')
+
+
+@app.route('/editdepartment', methods=['GET', 'POST'])
+def add_department():
+    form = AddDepartmentForm()
+    if form.validate_on_submit():
+        session = db_session.create_session()
+        department = Department(title=form.title.data,
+                                chief=current_user.id,
+                                members=form.members.data,
+                                email=form.department_email.data)
+        session.add(department)
+        session.commit()
+        return redirect('/departments')
+    return render_template('edit_department.html', title='Edit Department', form=form)
+
+@app.route('/delete_department/<int:id>')
+@login_required
+def delete_department(id):
+    db_sess = db_session.create_session()
+    department = db_sess.query(Department).filter(Department.id == id, or_(Department.chief == current_user.id, current_user.id == 1)).first()
+    if department:
+        db_sess.delete(department)
+        db_sess.commit()
+    else:
+        abort(404)
+    return redirect('/departments')
+
+
+@app.route('/edit_department/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_department(id):
+    form = AddDepartmentForm()
+    if request.method == "GET":
+        db_sess = db_session.create_session()
+        department = db_sess.query(Department).filter(Department.id == id, or_(Department.chief == current_user.id, current_user.id == 1)).first()
+
+        if department:
+            form.title.data = department.title
+            form.members.data = department.members
+            form.department_email.data = department.email
+        else:
+            abort(404)
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        department = db_sess.query(Department).filter(Department.id == id, or_(Department.chief == current_user.id, current_user.id == 1)).first()
+        if department:
+            department.title = form.title.data
+            department.members = form.members.data
+            department.email = form.department_email.data
+            db_sess.commit()
+            return redirect('/departments')
+        else:
+            abort(404)
+    return render_template('edit_department.html', title='Editing department', form=form)
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
         if form.password.data != form.repeat_password.data:
-            return render_template('register.html', form=form, title='Регистрация', message='Пароли не совпадают')
+            return render_template('register.html', form=form, title='Registration', message='Passwords do not match')
         session = db_session.create_session()
         if session.query(User).filter(User.email == form.login_email.data).first():
-            return render_template('register.html', form=form, title='Регистрация',
-                                   message='Такой пользователь уже есть')
+            return render_template('register.html', form=form, title='Registration',
+                                   message='There is already such a user')
         user = User(surname=form.surname.data,
                     name=form.name.data,
                     age=form.age.data,
@@ -71,7 +137,7 @@ def register():
         session.add(user)
         session.commit()
         return redirect('/login')
-    return render_template('register.html', form=form, title='Регистрация')
+    return render_template('register.html', form=form, title='Registration')
 
 
 @app.route('/editjob', methods=['GET', 'POST'])
@@ -79,17 +145,17 @@ def addjob():
     form = AddJobForm()
     if form.validate_on_submit():
         session = db_session.create_session()
-        user = Jobs(job=form.job.data,
-                    work_size=form.work_size.data,
-                    collaborators=form.collaborators.data,
-                    is_finished=form.remember_me.data,
-                    team_leader=form.team_leader.data,
-                    creator=current_user.id
-                    )
-        session.add(user)
+        job = Jobs(job=form.job.data,
+                   work_size=form.work_size.data,
+                   collaborators=form.collaborators.data,
+                   is_finished=form.job_finished.data,
+                   team_leader=form.team_leader.data,
+                   creator=current_user.id
+                   )
+        session.add(job)
         session.commit()
         return redirect('/')
-    return render_template('addjob.html', form=form, title='Работа')
+    return render_template('add_job.html', form=form, title='Work')
 
 
 @app.route('/logout')
@@ -109,9 +175,9 @@ def login():
             login_user(user, remember=form.remember_me.data)
             return redirect("/")
         return render_template('login.html',
-                               message="Неправильный логин или пароль",
+                               message="Incorrect login or password",
                                form=form)
-    return render_template('login.html', title='Авторизация', form=form)
+    return render_template('login.html', title='Authorization', form=form)
 
 
 @app.route('/index')
@@ -294,7 +360,7 @@ def edit(id):
             return redirect('/')
         else:
             abort(404)
-    return render_template('addjob.html', title='Редактирование работы', form=form)
+    return render_template('add_job.html', title='Editing work', form=form)
 
 
 def set_users():
