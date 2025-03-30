@@ -20,5 +20,8 @@ class Jobs(SqlAlchemyBase, SerializerMixin):
     creator = sqlalchemy.Column(sqlalchemy.Integer, default=1)
     user = orm.relationship('User')
 
+    hazard_category_id = sqlalchemy.Column(sqlalchemy.String, sqlalchemy.ForeignKey("hazard_category.id"), nullable=True)
+    hazard_category = orm.relationship('HazardCategory')
+
     def __repr__(self):
         return f'<Job> {self.job}'

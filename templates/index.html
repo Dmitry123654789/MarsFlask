@@ -14,9 +14,10 @@
         <tr class="table-secondary">
             <td width="30%">Title of activity</td>
             <td width="20%">Team leader</td>
-            <td width="20%">Duration</td>
-            <td width="15%">List of collaborators</td>
-            <td width="15%">Is finiched</td>
+            <td width="12.5%">Duration</td>
+            <td width="12.5%">List of collaborators</td>
+            <td width="12.5%">Hazard Category</td>
+            <td width="12.5%">Is finiched</td>
         </tr>
         </thead>
         <tr class="table-primary table-center-vertical">
@@ -24,8 +25,9 @@
             <td>{{ names[job.team_leader] }}</td>
             <td>{{ job.work_size }} hours</td>
             <td align="center">{{ job.collaborators }}</td>
+            <td align="center">{{ job.hazard_category_id }}</td>
             {% if job.is_finished %}
-            <td class="table-success" align="center">Is finiched</td>
+            <td class="table-success" align="center">Finiched</td>
             {% else %}
             <td class="table-danger" align="center">Is not finiched</td>
             {% endif %}
