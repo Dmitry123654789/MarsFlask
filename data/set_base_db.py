@@ -16,6 +16,7 @@ def set_users():
     user1.speciality = "research engineer"
     user1.address = "module_1"
     user1.email = "scott_chief@mars.org"
+    user1.city_from = "Krasnodar"
     user1.hashed_password = "cap"
     user1.set_password(user1.hashed_password)
     user2 = User()
@@ -27,6 +28,7 @@ def set_users():
     user2.speciality = "проектировщик сайтов"
     user2.address = "module_2"
     user2.email = "stzer@mars.org"
+    user2.city_from = "Wellington"
     user2.hashed_password = "stzer"
     user2.set_password(user2.hashed_password)
     user3 = User()
@@ -38,6 +40,7 @@ def set_users():
     user3.speciality = "no work"
     user3.address = "module_3"
     user3.email = "best_prezident@mars.org"
+    user3.city_from = "Moscow"
     user3.hashed_password = "prezident"
     user3.set_password(user3.hashed_password)
 
@@ -49,6 +52,7 @@ def set_users():
     user4.speciality = "none"
     user4.address = "module_4"
     user4.email = "none@mars.org"
+    user4.city_from = "Krasnodar"
     user4.hashed_password = "none"
     user4.set_password(user4.hashed_password)
 

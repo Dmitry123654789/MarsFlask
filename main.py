@@ -2,22 +2,34 @@ import json
 import random
 from os import path
 
+import requests
 from flask import Flask, render_template, redirect, request, abort, jsonify
 from flask import make_response
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from requests import get
 from sqlalchemy.sql.operators import or_
-
-from api import jobs_api
+from flask_restful import reqparse, abort, Api, Resource
+from api import jobs_api, user_api
 from data.set_base_db import *
-from data.users import User
 from forms.add_department import AddDepartmentForm
 from forms.add_job import AddJobForm
 from forms.login import LoginForm
 from forms.register import RegisterForm
+from api_v2.users_resource import *
+from api_v2.jobs_resource import *
 
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__)
+api = Api(app)
 app.register_blueprint(jobs_api.blueprint, url_prefix='/api')
+app.register_blueprint(user_api.blueprint, url_prefix='/api')
+
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+
+api.add_resource(UsersListResource, '/api/v2/users')
+api.add_resource(UsersResource, '/api/v2/users/<int:users_id>')
+
+api.add_resource(JobsListResource, '/api/v2/jobs')
+api.add_resource(JobsResource, '/api/v2/jobs/<int:jobs_id>')
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -132,7 +144,8 @@ def register():
                     position=form.position.data,
                     speciality=form.speciality.data,
                     address=form.address.data,
-                    email=form.login_email.data
+                    email=form.login_email.data,
+                    city_from=form.city_from.data
                     )
         user.set_password(form.password.data)
         session.add(user)
@@ -366,6 +379,24 @@ def edit(id):
         else:
             abort(404)
     return render_template('add_job.html', title='Editing work', form=form)
+
+
+@app.route('/users_show/<int:user_id>')
+def users_show(user_id):
+    user = get(f'http://localhost:8080/api/users/{user_id}').json()
+    if 'users' not in user:
+        return abort(404)
+    else:
+        user = user['users']
+
+    api_key = '8013b162-6b42-4997-9691-77b7074026e0'
+    server_address = 'https://geocode-maps.yandex.ru/1.x/?'
+    geocoder_request = f'{server_address}apikey={api_key}&geocode={user["city_from"]}&format=json'
+    pos = requests.get(geocoder_request).json()['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos'].replace(' ', ',')
+
+    response = f'https://static-maps.yandex.ru/1.x/?ll={pos}&spn=0.05,0.05&l=sat'
+
+    return render_template('users_show.html', title='Hometown', response=response, user=user)
 
 
 def main():

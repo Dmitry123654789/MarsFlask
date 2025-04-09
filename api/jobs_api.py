@@ -2,7 +2,6 @@ import datetime
 
 import flask
 from flask import jsonify, make_response, request
-from sqlalchemy import update
 from data import db_session
 from data.jobs import Jobs
 
@@ -26,7 +25,7 @@ def get_jobs():
 @blueprint.route('/jobs/<jobs_id>', methods=['GET'])
 def get_one_jobs(jobs_id):
     db_sess = db_session.create_session()
-    jobs = db_sess.query(Jobs).get(jobs_id)
+    jobs = db_sess.get(Jobs, jobs_id)
     if not jobs:
         return make_response(jsonify({'error': 'Not found'}), 404)
     return jsonify(
@@ -65,7 +64,7 @@ def create_jobs():
 @blueprint.route('/jobs/<jobs_id>', methods=['DELETE'])
 def delete_jobs(jobs_id):
     db_sess = db_session.create_session()
-    jobs = db_sess.query(Jobs).get(jobs_id)
+    jobs = db_sess.get(Jobs, jobs_id)
     if not jobs:
         return make_response(jsonify({'error': 'Not found'}), 404)
     db_sess.delete(jobs)
@@ -75,7 +74,7 @@ def delete_jobs(jobs_id):
 @blueprint.route('/jobs/<jobs_id>', methods=['PUT'])
 def update_jobs(jobs_id):
     db_sess = db_session.create_session()
-    job = db_sess.query(Jobs).get(jobs_id)
+    job = db_sess.get(Jobs, jobs_id)
     if not job:
         return make_response(jsonify({'error': 'Not found'}), 404)
 
