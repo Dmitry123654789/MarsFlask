@@ -1,5 +1,7 @@
-from flask import jsonify
-from flask_restful import Resource
+import datetime
+
+from flask import jsonify, make_response
+from flask_restful import Resource, abort
 from .parser_job import parser
 from data import db_session
 from data.jobs import Jobs
@@ -9,12 +11,16 @@ class JobsResource(Resource):
     def get(self, jobs_id):
         session = db_session.create_session()
         jobs = session.get(Jobs, jobs_id)
+        if not jobs:
+            abort(404)
         return jsonify({'jobs': jobs.to_dict(
-            only=('id', 'job', 'work_size', 'collaborators', 'start_date', 'end_date', 'is_finished', 'team_leader', 'creator'))})
+            only=('id', 'job', 'work_size', 'collaborators', 'start_date', 'end_date', 'is_finished', 'team_leader', 'creator', 'hazard_category_id'))})
 
     def delete(self, jobs_id):
         session = db_session.create_session()
         jobs = session.query(Jobs).get(jobs_id)
+        if not jobs:
+            abort(404)
         session.delete(jobs)
         session.commit()
         return jsonify({'success': 'OK'})
@@ -24,22 +30,30 @@ class JobsListResource(Resource):
         session = db_session.create_session()
         jobs = session.query(Jobs).all()
         return jsonify({'jobs': [item.to_dict(
-            only=('id', 'job', 'work_size', 'collaborators', 'start_date', 'end_date', 'is_finished', 'team_leader', 'creator')) for item in jobs]})
+            only=('id', 'job', 'work_size', 'collaborators', 'start_date', 'end_date', 'is_finished', 'team_leader', 'creator', 'hazard_category_id')) for item in jobs]})
 
     def post(self):
         args = parser.parse_args()
-        session = db_session.create_session()
-        jobs = Jobs(
-            id=args['id'],
-            job=args['job'],
-            work_size=args['work_size'],
-            collaborators=args['collaborators'],
-            start_date=args['start_date'],
-            end_date=args['end_date'],
-            is_finished=args['is_finished'],
-            team_leader=args['team_leader'],
-            creator=args['creator']
-        )
-        session.add(jobs)
-        session.commit()
-        return jsonify({'id': jobs.id})
+        print(args.keys(), len(args))
+        if not args:
+            return make_response(jsonify({'error': 'Empty request'}), 400)
+        elif all(key in args for key in
+                 ['job', 'work_size', 'collaborators', 'is_finished', 'start_date', 'team_leader', 'creator',
+                  'end_date', 'is_finished', 'hazard_category_id']) and len(args) == 9:
+            db_sess = db_session.create_session()
+            jobs = Jobs(
+                job=args['job'],
+                work_size=args['work_size'],
+                collaborators=args['collaborators'],
+                start_date=datetime.datetime.strptime(args['start_date'], '%Y-%m-%d %H:%M:%S'),
+                end_date=datetime.datetime.strptime(args['end_date'], '%Y-%m-%d %H:%M:%S'),
+                is_finished=args['is_finished'],
+                team_leader=args['team_leader'],
+                creator=args['creator'],
+                hazard_category_id=args['hazard_category_id']
+            )
+            db_sess.add(jobs)
+            db_sess.commit()
+            return jsonify({'id': jobs.id})
+
+        return make_response(jsonify({'error': 'Bad request'}), 400)

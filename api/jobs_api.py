@@ -17,7 +17,7 @@ def get_jobs():
             'jobs':
                 [item.to_dict(only=(
                     'id', 'job', 'work_size', 'collaborators', 'start_date', 'end_date', 'is_finished', 'team_leader',
-                    'creator')) for item in jobs]
+                    'creator', 'hazard_category_id')) for item in jobs]
         }
     )
 
@@ -32,7 +32,7 @@ def get_one_jobs(jobs_id):
         {
             'jobs': jobs.to_dict(only=(
                 'id', 'job', 'work_size', 'collaborators', 'start_date', 'end_date', 'is_finished', 'team_leader',
-                'creator'))
+                'creator', 'hazard_category_id'))
         }
     )
 
@@ -43,7 +43,7 @@ def create_jobs():
         return make_response(jsonify({'error': 'Empty request'}), 400)
     elif all(key in request.json for key in
              ['job', 'work_size', 'collaborators', 'is_finished', 'start_date', 'team_leader', 'creator',
-              'end_date', 'is_finished']) and len(request.json) == 8:
+              'end_date', 'is_finished', 'hazard_category_id']) and len(request.json) == 9:
         db_sess = db_session.create_session()
         jobs = Jobs(
             job=request.json['job'],
@@ -53,7 +53,8 @@ def create_jobs():
             end_date=datetime.datetime.strptime(request.json['end_date'], '%Y-%m-%d %H:%M:%S'),
             is_finished=request.json['is_finished'],
             team_leader=request.json['team_leader'],
-            creator=request.json['creator']
+            creator=request.json['creator'],
+            hazard_category_id=request.json['hazard_category_id']
         )
         db_sess.add(jobs)
         db_sess.commit()
