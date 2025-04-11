@@ -43,7 +43,7 @@ def create_users():
         return make_response(jsonify({'error': 'Empty request'}), 400)
     elif all(key in request.json for key in
              ['surname', 'name', 'age', 'position', 'speciality', 'address', 'email', 'city_from',
-              'modified_date']) and len(request.json) == 8:
+              'modified_date']) and len(request.json) == 9:
         db_sess = db_session.create_session()
         users = User(
             surname=request.json['surname'],
@@ -81,18 +81,16 @@ def update_users(users_id):
     if not user:
         return make_response(jsonify({'error': 'Not found'}), 404)
 
-    error_key = []
-    for key, value in request.json.items():
-        if hasattr(user, key):
-            try:
-                if key == 'modified_date':
-                    setattr(user, key, datetime.datetime.strptime(request.json['modified_date'], '%Y-%m-%d %H:%M:%S'))
-                else:
-                    setattr(user, key, value)
-            except Exception as e:
-                error_key.append(key)
-        else:
-            error_key.append(key)
+    elif all(key in request.json for key in
+             ['surname', 'name', 'age', 'position', 'speciality', 'address', 'email', 'city_from',
+              'modified_date']) and len(request.json) == 9:
+        for key, value in request.json.items():
+            if key == 'modified_date':
+                setattr(user, key, datetime.datetime.strptime(request.json['modified_date'], '%Y-%m-%d %H:%M:%S'))
+            else:
+                setattr(user, key, value)
+        db_sess.commit()
+        return jsonify({'success': 'OK'})
 
-    db_sess.commit()
-    return jsonify({'success': 'OK', 'error_keys': error_key})
+    return make_response(jsonify({'error': 'Bad request'}), 400)
+

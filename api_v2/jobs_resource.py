@@ -25,6 +25,26 @@ class JobsResource(Resource):
         session.commit()
         return jsonify({'success': 'OK'})
 
+    def put(self, jobs_id):
+        args = parser.parse_args()
+        db_sess = db_session.create_session()
+        job = db_sess.get(Jobs, jobs_id)
+        if not job:
+            return make_response(jsonify({'error': 'Not found'}), 404)
+        elif len(args) == 9 and all(key in args for key in
+                                            ['job', 'work_size', 'collaborators', 'is_finished', 'start_date',
+                                             'team_leader', 'creator',
+                                             'end_date', 'is_finished', 'hazard_category_id']):
+            for key, value in args.items():
+                if key in ['end_date', 'start_date']:
+                    setattr(job, key, datetime.datetime.strptime(value, '%Y-%m-%d %H:%M:%S'))
+                else:
+                    setattr(job, key, value)
+
+            db_sess.commit()
+            return jsonify({'success': 'OK'})
+        return make_response(jsonify({'error': 'Bad request'}), 400)
+
 class JobsListResource(Resource):
     def get(self):
         session = db_session.create_session()
@@ -34,7 +54,6 @@ class JobsListResource(Resource):
 
     def post(self):
         args = parser.parse_args()
-        print(args.keys(), len(args))
         if not args:
             return make_response(jsonify({'error': 'Empty request'}), 400)
         elif all(key in args for key in

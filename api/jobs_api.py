@@ -78,19 +78,15 @@ def update_jobs(jobs_id):
     job = db_sess.get(Jobs, jobs_id)
     if not job:
         return make_response(jsonify({'error': 'Not found'}), 404)
+    elif len(request.json) == 9 and all(key in request.json for key in
+             ['job', 'work_size', 'collaborators', 'is_finished', 'start_date', 'team_leader', 'creator',
+              'end_date', 'is_finished', 'hazard_category_id']):
+        for key, value in request.json.items():
+            if key in ['end_date', 'start_date']:
+                setattr(job, key, datetime.datetime.strptime(request.json[key], '%Y-%m-%d %H:%M:%S'))
+            else:
+                setattr(job, key, value)
 
-    error_key = []
-    for key, value in request.json.items():
-        if hasattr(job, key):
-            try:
-                if key in ['end_date', 'start_date']:
-                    setattr(job, key, datetime.datetime.strptime(request.json['start_date'], '%Y-%m-%d %H:%M:%S'))
-                else:
-                    setattr(job, key, value)
-            except Exception as e:
-                error_key.append(key)
-        else:
-            error_key.append(key)
-
-    db_sess.commit()
-    return jsonify({'success': 'OK', 'error_keys': error_key})
+        db_sess.commit()
+        return jsonify({'success': 'OK'})
+    return make_response(jsonify({'error': 'Bad request'}), 400)

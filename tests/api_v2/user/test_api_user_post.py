@@ -11,7 +11,7 @@ print(post('http://localhost:8080/api/v2/users',
                  'speciality': 'test',
                  'address': 'test',
                  'city_from': 'test',
-                 'email': 'test@test.test',
+                 'email': 'testt@test.test',
                  'modified_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
                  }).json())
 
